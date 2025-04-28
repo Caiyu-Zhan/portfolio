@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>個人作品集 | Oliver's Portfolio</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Tailwind 自定義主色 -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FF4831',
+            secondary: '#E5DED6',
+          },
+          fontFamily: {
+            sans: ['Noto Sans TC', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+</head>
+<body class="bg-white text-black font-sans">
+
+<!-- ===== Header 自我介紹區 ===== -->
+<header class="relative flex flex-col items-center justify-center min-h-[70vh] px-6 text-center bg-white max-w-4xl mx-auto overflow-hidden">
+  <div class="absolute inset-0 -z-10">
+    <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+      <path fill="#E5DED6" fill-opacity="1" d="M0,224L60,202.7C120,181,240,139,360,133.3C480,128,600,160,720,170.7C840,181,960,171,1080,144C1200,117,1320,75,1380,53.3L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
+    </svg>
+  </div>
+  
+  <img src="your-avatar.jpg" alt="大頭貼 Avatar" class="w-20 h-20 rounded-full shadow-lg mb-3 relative z-10">
+  <h1 class="text-2xl font-bold relative z-10">你好，我是 Oliver</h1>
+  <p class="text-sm max-w-md text-gray-600 leading-relaxed relative z-10">
+    專注於插畫設計、視覺識別與互動前端的設計師／前端架構師。
+  </p>
+</header>
+
+<!-- ===== Skills 技能區 ===== -->
+<section class="py-8 bg-white">
+  <h2 class="text-3xl font-extrabold text-primary text-center mb-12 tracking-wide">技能 | Skills</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
+    <div class="flex flex-col items-center text-center p-6 bg-white border border-secondary rounded-xl shadow-sm hover:shadow-lg hover:border-primary transform hover:scale-105 transition duration-300">
+      <i class="fas fa-paint-brush text-4xl text-primary mb-4"></i>
+      <h3 class="text-xl font-semibold mb-2">插畫設計 | Illustration</h3>
+      <p class="text-gray-600 text-sm leading-relaxed">創作具故事性的角色與場景插圖。</p>
+    </div>
+
+    <div class="flex flex-col items-center text-center p-6 bg-white border border-secondary rounded-xl shadow-sm hover:shadow-lg hover:border-primary transform hover:scale-105 transition duration-300">
+      <i class="fas fa-bullhorn text-4xl text-primary mb-4"></i>
+      <h3 class="text-xl font-semibold mb-2">視覺識別設計 | Branding</h3>
+      <p class="text-gray-600 text-sm leading-relaxed">為品牌打造獨特且鮮明的形象。</p>
+    </div>
+
+    <div class="flex flex-col items-center text-center p-6 bg-white border border-secondary rounded-xl shadow-sm hover:shadow-lg hover:border-primary transform hover:scale-105 transition duration-300">
+      <i class="fas fa-font text-4xl text-primary mb-4"></i>
+      <h3 class="text-xl font-semibold mb-2">字體設計 | Typography</h3>
+      <p class="text-gray-600 text-sm leading-relaxed">設計專屬品牌調性的字體。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 作品分類 Categories 區 ===== -->
+<section class="py-16 bg-white relative">
+  <h2 class="text-3xl font-extrabold text-primary text-center mb-10">作品類別 | Categories</h2>
+  
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
+    <button class="group relative overflow-hidden rounded-3xl shadow-md hover:shadow-xl transform hover:scale-105 transition" onclick="filterCategory('branding')">
+      <img src="branding.jpg" alt="視覺識別設計" class="w-full h-48 object-cover">
+      <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-40 transition"></div>
+      <div class="absolute bottom-4 left-4 text-white text-lg font-semibold">視覺識別設計</div>
+    </button>
+    
+
+    <button class="group relative overflow-hidden rounded-3xl shadow-md hover:shadow-xl transform hover:scale-105 transition" onclick="filterCategory('illustration')">
+      <img src="illustration.jpg" alt="插畫設計" class="w-full h-48 object-cover">
+      <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-40 transition"></div>
+      <div class="absolute bottom-4 left-4 text-white text-lg font-semibold">插畫設計</div>
+    </button>
+
+    <button class="group relative overflow-hidden rounded-3xl shadow-md hover:shadow-xl transform hover:scale-105 transition" onclick="filterCategory('typography')">
+      <img src="typography.jpg" alt="字體設計" class="w-full h-48 object-cover">
+      <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-40 transition"></div>
+      <div class="absolute bottom-4 left-4 text-white text-lg font-semibold">字體設計</div>
+    </button>
+  </div>
+</section>
+<section id="works" class="py-16 bg-white relative">
+  <h2 class="text-3xl font-extrabold text-primary text-center mb-10">作品牆 | Recent Works</h2>
+  
+  <!-- 這裡之後可以加作品卡片 -->
+</section>
+<!-- ===== 社群連結區 ===== -->
+<section class="py-12 text-center">
+  <h2 class="text-3xl font-extrabold text-primary mb-6">聯繫我 | Contact</h2>
+  <div class="flex justify-center space-x-6 text-3xl">
+    <a href="https://instagram.com" target="_blank" class="hover:text-primary"><i class="fab fa-instagram"></i></a>
+    <a href="https://linkedin.com" target="_blank" class="hover:text-primary"><i class="fab fa-linkedin"></i></a>
+    <a href="https://github.com" target="_blank" class="hover:text-primary"><i class="fab fa-github"></i></a>
+    <a href="mailto:your@email.com" class="hover:text-primary"><i class="fas fa-envelope"></i></a>
+  </div>
+</section>
+
+<!-- ===== JavaScript 簡單互動 ===== -->
+<script>
+function filterCategory(category) {
+  console.log("你點了分類: ", category);
+  // 這裡可以加未來的篩選動作
+}
+</script>
+<script>
+  function filterCategory(category) {
+    console.log("你點了分類: ", category);
+    const worksSection = document.getElementById('works');
+    if (worksSection) {
+      worksSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+  </script>
+</body>
+</html>
+
