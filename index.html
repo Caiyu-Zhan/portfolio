@@ -1,133 +1,904 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-TW">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>個人作品集 | Oliver's Portfolio</title>
-
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Font Awesome Icons -->
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-
-  <!-- Tailwind 自定義主色 -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#FF4831',
-            secondary: '#E5DED6',
-          },
-          fontFamily: {
-            sans: ['Noto Sans TC', 'sans-serif'],
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>設計師作品集</title>
+    <style>
+        /* 基礎樣式設定 */
+        :root {
+            --primary-color: #333;
+            --secondary-color: #f0f0f0;
+            --accent-color: #6366f1;
+            --text-color: #333;
+            --light-text: #666;
+            --background-color: #ffffff;
+            --card-background: #f9f9f9;
+            --transition-speed: 0.4s;
         }
-      }
-    }
-  </script>
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* 流動的背景效果 */
+        .fluid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .fluid-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.05);
+            animation: moveAround 25s infinite alternate ease-in-out;
+        }
+
+        .shape1 {
+            width: 60vw;
+            height: 60vw;
+            top: -10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .shape2 {
+            width: 45vw;
+            height: 45vw;
+            bottom: -15%;
+            right: -10%;
+            animation-delay: -5s;
+            background: rgba(99, 102, 241, 0.08);
+        }
+
+        .shape3 {
+            width: 35vw;
+            height: 35vw;
+            top: 40%;
+            left: 30%;
+            animation-delay: -12s;
+            background: rgba(99, 102, 241, 0.03);
+        }
+
+        @keyframes moveAround {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            50% {
+                transform: translate(5%, 5%) scale(1.05);
+            }
+            100% {
+                transform: translate(-5%, -2%) scale(0.95);
+            }
+        }
+
+        /* 導航欄樣式 */
+        header {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 1rem 5%;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 1.5rem;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            position: relative;
+            transition: color var(--transition-speed);
+        }
+
+        nav ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--accent-color);
+            transition: width var(--transition-speed);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            cursor: pointer;
+        }
+
+        .mobile-menu-btn div {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            margin: 5px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* 主要區塊樣式 */
+        main {
+            margin-top: 100px;
+            padding: 0 5%;
+        }
+
+        section {
+            padding: 5rem 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background-color: var(--accent-color);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            max-width: 700px;
+        }
+
+        /* 英雄區塊樣式 */
+        #hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4rem;
+            padding-top: 120px;
+        }
+
+        .hero-content {
+            flex: 1;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .profile-img {
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 15px solid rgba(255, 255, 255, 0.8);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+            100% {
+                transform: translateY(0);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* 關於我區塊樣式 */
+        #about {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .about-content {
+            display: flex;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            flex: 1.5;
+        }
+
+        .skills {
+            margin-top: 2rem;
+        }
+
+        .skill-bars {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .skill-tag {
+            padding: 0.5rem 1.5rem;
+            background-color: var(--secondary-color);
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all var(--transition-speed);
+        }
+
+        .skill-tag:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* 作品集區塊樣式 */
+        #portfolio {
+            padding-bottom: 3rem;
+        }
+
+        .category-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            background: none;
+            border: 2px solid var(--accent-color);
+            border-radius: 30px;
+            color: var(--text-color);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .portfolio-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            background-color: var(--card-background);
+            transition: all var(--transition-speed);
+            transform: translateY(0);
+            position: relative;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .portfolio-img {
+            width: 100%;
+            height: 70%;
+            object-fit: cover;
+        }
+
+        .portfolio-info {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .portfolio-info h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-info p {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            margin-bottom: 0;
+        }
+
+        .portfolio-category {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* 工作經驗區塊樣式 */
+        #experience {
+            padding-top: 8rem;
+        }
+
+        .timeline {
+            position: relative;
+            max-width: 1000px;
+            margin: 3rem auto 0;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 3px;
+            background-color: var(--secondary-color);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1.5px;
+        }
+
+        .timeline-item {
+            padding: 1.5rem 2.5rem;
+            position: relative;
+            width: 50%;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+
+        .timeline-item:nth-child(even) {
+            left: 50%;
+            transform: translateX(50px);
+        }
+
+        .timeline-item:nth-child(even).visible {
+            transform: translateX(0);
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            top: 50%;
+            right: -10px;
+            margin-top: -10px;
+            z-index: 1;
+        }
+
+        .timeline-item:nth-child(even)::after {
+            left: -10px;
+            right: auto;
+        }
+
+        .timeline-content {
+            padding: 2rem;
+            background-color: var(--card-background);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+        }
+
+        .timeline-date {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        /* 聯絡區塊樣式 */
+        #contact {
+            padding-bottom: 8rem;
+        }
+
+        .contact-form {
+            max-width: 700px;
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--secondary-color);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all var(--transition-speed);
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            padding: 1rem 2.5rem;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .submit-btn:hover {
+            background-color: #5659cc;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        /* 頁腳樣式 */
+        footer {
+            background-color: var(--secondary-color);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--background-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-speed);
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background-color: var(--accent-color);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .footer-text {
+            color: var(--light-text);
+            font-size: 0.9rem;
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+
+            #hero {
+                flex-direction: column-reverse;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .hero-content {
+                align-items: center;
+            }
+
+            p {
+                text-align: left;
+            }
+
+            .profile-img {
+                width: 300px;
+                height: 300px;
+            }
+
+            .about-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .timeline::after {
+                left: 40px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 80px;
+                padding-right: 0;
+            }
+
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+
+            .timeline-item::after {
+                left: 30px;
+                right: auto;
+            }
+
+            .timeline-item:nth-child(even)::after {
+                left: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                padding: 1.5rem 5%;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--background-color);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                padding: 1rem 0;
+            }
+
+            nav ul.show {
+                display: flex;
+            }
+
+            nav ul li {
+                margin: 0;
+                padding: 1rem 5%;
+                width: 100%;
+                text-align: center;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .filter-btn {
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .profile-img {
+                width: 250px;
+                height: 250px;
+                border-width: 10px;
+            }
+
+            .category-filter {
+                justify-content: center;
+            }
+
+            .timeline-content {
+                padding: 1.5rem;
+            }
+        }
+
+        /* 動畫效果 */
+        .fade-in {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
-<body class="bg-white text-black font-sans">
-
-<!-- ===== Header 自我介紹區 ===== -->
-<header class="relative flex flex-col items-center justify-center min-h-[70vh] px-6 text-center bg-white max-w-4xl mx-auto overflow-hidden">
-  <div class="absolute inset-0 -z-10">
-    <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
-      <path fill="#E5DED6" fill-opacity="1" d="M0,224L60,202.7C120,181,240,139,360,133.3C480,128,600,160,720,170.7C840,181,960,171,1080,144C1200,117,1320,75,1380,53.3L1440,32L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path>
-    </svg>
-  </div>
-  
-  <img src="your-avatar.jpg" alt="大頭貼 Avatar" class="w-20 h-20 rounded-full shadow-lg mb-3 relative z-10">
-  <h1 class="text-2xl font-bold relative z-10">你好，我是 Oliver</h1>
-  <p class="text-sm max-w-md text-gray-600 leading-relaxed relative z-10">
-    專注於插畫設計、視覺識別與互動前端的設計師／前端架構師。
-  </p>
-</header>
-
-<!-- ===== Skills 技能區 ===== -->
-<section class="py-8 bg-white">
-  <h2 class="text-3xl font-extrabold text-primary text-center mb-12 tracking-wide">技能 | Skills</h2>
-
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
-    <div class="flex flex-col items-center text-center p-6 bg-white border border-secondary rounded-xl shadow-sm hover:shadow-lg hover:border-primary transform hover:scale-105 transition duration-300">
-      <i class="fas fa-paint-brush text-4xl text-primary mb-4"></i>
-      <h3 class="text-xl font-semibold mb-2">插畫設計 | Illustration</h3>
-      <p class="text-gray-600 text-sm leading-relaxed">創作具故事性的角色與場景插圖。</p>
+<body>
+    <div class="fluid-background">
+        <div class="fluid-shape shape1"></div>
+        <div class="fluid-shape shape2"></div>
+        <div class="fluid-shape shape3"></div>
     </div>
 
-    <div class="flex flex-col items-center text-center p-6 bg-white border border-secondary rounded-xl shadow-sm hover:shadow-lg hover:border-primary transform hover:scale-105 transition duration-300">
-      <i class="fas fa-bullhorn text-4xl text-primary mb-4"></i>
-      <h3 class="text-xl font-semibold mb-2">視覺識別設計 | Branding</h3>
-      <p class="text-gray-600 text-sm leading-relaxed">為品牌打造獨特且鮮明的形象。</p>
-    </div>
+    <header>
+        <div class="logo">PORTFOLIO</div>
+        <nav>
+            <ul id="menu">
+                <li><a href="#hero">首頁</a></li>
+                <li><a href="#about">關於我</a></li>
+                <li><a href="#portfolio">作品集</a></li>
+                <li><a href="#experience">工作經驗</a></li>
+                <li><a href="#contact">聯絡我</a></li>
+            </ul>
+            <div class="mobile-menu-btn" id="mobile-menu-btn">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </nav>
+    </header>
 
-    <div class="flex flex-col items-center text-center p-6 bg-white border border-secondary rounded-xl shadow-sm hover:shadow-lg hover:border-primary transform hover:scale-105 transition duration-300">
-      <i class="fas fa-font text-4xl text-primary mb-4"></i>
-      <h3 class="text-xl font-semibold mb-2">字體設計 | Typography</h3>
-      <p class="text-gray-600 text-sm leading-relaxed">設計專屬品牌調性的字體。</p>
-    </div>
-  </div>
-</section>
+    <main>
+        <section id="hero" class="visible">
+            <div class="hero-content">
+                <div class="subtitle fade-in">設計師 / UI/UX / 視覺設計</div>
+                <h1 class="fade-in">你好，我是<br><span style="color: var(--accent-color);">設計師小明</span></h1>
+                <p class="fade-in">我專注於創造具有現代感且實用的設計作品，結合美感與功能性，為每一個項目注入獨特的創意與專業。</p>
+                <a href="#portfolio" class="submit-btn fade-in" style="display: inline-block; text-decoration: none; margin-top: 1rem;">查看我的作品</a>
+            </div>
+            <div class="hero-image">
+                <img src="/api/placeholder/400/400" alt="設計師照片" class="profile-img fade-in">
+            </div>
+        </section>
 
-<!-- ===== 作品分類 Categories 區 ===== -->
-<section class="py-16 bg-white relative">
-  <h2 class="text-3xl font-extrabold text-primary text-center mb-10">作品類別 | Categories</h2>
-  
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-6">
-    <button class="group relative overflow-hidden rounded-3xl shadow-md hover:shadow-xl transform hover:scale-105 transition" onclick="filterCategory('branding')">
-      <img src="branding.jpg" alt="視覺識別設計" class="w-full h-48 object-cover">
-      <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-40 transition"></div>
-      <div class="absolute bottom-4 left-4 text-white text-lg font-semibold">視覺識別設計</div>
-    </button>
-    
+        <section id="about">
+            <h2>關於我</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>我是一位擁有5年專業經驗的多領域設計師，專精於UI/UX、視覺設計、包裝設計及品牌識別。我的設計理念源自於「簡約而不簡單」的原則，致力於將複雜的概念轉化為清晰、直觀且具有視覺吸引力的設計作品。</p>
+                    <p>我擁有藝術與科技的雙重背景，這使我能夠在創意思考與實用功能之間找到完美的平衡點。無論是設計用戶界面還是品牌標識，我都專注於創造能夠有效溝通的視覺語言，同時為用戶提供流暢的體驗。</p>
+                    <div class="skills">
+                        <h3>專業技能</h3>
+                        <div class="skill-bars">
+                            <div class="skill-tag">Adobe Photoshop</div>
+                            <div class="skill-tag">Adobe Illustrator</div>
+                            <div class="skill-tag">Adobe XD</div>
+                            <div class="skill-tag">Figma</div>
+                            <div class="skill-tag">Sketch</div>
+                            <div class="skill-tag">UI/UX 設計</div>
+                            <div class="skill-tag">品牌識別</div>
+                            <div class="skill-tag">插畫設計</div>
+                            <div class="skill-tag">包裝設計</div>
+                            <div class="skill-tag">響應式網頁設計</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <button class="group relative overflow-hidden rounded-3xl shadow-md hover:shadow-xl transform hover:scale-105 transition" onclick="filterCategory('illustration')">
-      <img src="illustration.jpg" alt="插畫設計" class="w-full h-48 object-cover">
-      <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-40 transition"></div>
-      <div class="absolute bottom-4 left-4 text-white text-lg font-semibold">插畫設計</div>
-    </button>
+        <section id="portfolio">
+            <h2>作品集</h2>
+            <div class="category-filter">
+                <button class="filter-btn active" data-filter="all">所有作品</button>
+                <button class="filter-btn" data-filter="packaging">包裝設計</button>
+                <button class="filter-btn" data-filter="visual">視覺設計</button>
+                <button class="filter-btn" data-filter="illustration">插畫設計</button>
+                <button class="filter-btn" data-filter="identity">視覺識別</button>
+                <button class="filter-btn" data-filter="uiux">UI/UX 設計</button>
+            </div>
+            <div class="portfolio-grid">
+                <!-- 包裝設計 -->
+                <div class="portfolio-item" data-category="packaging">
+                    <img src="/api/placeholder/400/300" alt="有機茶包裝" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <div>
+                            <div class="portfolio-category">包裝設計</div>
+                            <h3>有機茶系列包裝</h3>
+                            <p>為有機茶品牌設計的環保包裝系列，強調產品的天然與純淨。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="packaging">
+                    <img src="/api/placeholder/400/300" alt="手工巧克力包裝" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <div>
+                            <div class="portfolio-category">包裝設計</div>
+                            <h3>手工巧克力禮盒</h3>
+                            <p>為高級巧克力品牌設計的精緻禮盒，結合傳統與現代元素。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 視覺設計 -->
+                <div class="portfolio-item" data-category="visual">
+                    <img src="/api/placeholder/400/300" alt="音樂節海報" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <div>
+                            <div class="portfolio-category">視覺設計</div>
+                            <h3>城市音樂節海報</h3>
+                            <p>為年度城市音樂節設計的主視覺海報，捕捉音樂的律動與城市的活力。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="visual">
+                    <img src="/api/placeholder/400/300" alt="藝術展覽宣傳" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <div>
+                            <div class="portfolio-category">視覺設計</div>
+                            <h3>當代藝術展視覺識別</h3>
+                            <p>為現代藝術博物館的特展設計的整體視覺系統，包含海報、手冊及數位媒體。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 插畫設計 -->
+                <div class="portfolio-item" data-category="illustration">
+                    <img src="/api/placeholder/400/300" alt="兒童繪本插畫" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <div>
+                            <div class="portfolio-category">插畫設計</div>
+                            <h3>《森林的秘密》繪本</h3>
+                            <p>為兒童環保教育繪本創作的一系列插畫，風格溫暖且富有想像力。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="illustration">
+                    <img src="/api/placeholder/400/300" alt="季節性插畫" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <div>
+                            <div class="portfolio-category">插畫設計</div>
+                            <h3>四季風景插畫集</h3>
+                            <p>描繪四季變化的數位插畫系列，每幅作品捕捉季節特有的氛圍與色彩。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 視覺識別 -->
+                <div class="portfolio-item" data-category="identity">
+                    <img src="/api/placeholder/400/300" alt="咖啡品牌識別" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <div>
+                            <div class="portfolio-category">視覺識別</div>
+                            <h3>Mocha Brew 咖啡品牌</h3>
+                            <p>為精品咖啡連鎖店打造的完整品牌識別系統，包含logo、包裝及店內視覺設計。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="identity">
+                    <img src="/api/placeholder/400/300" alt="科技公司品牌識別" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <div>
+                            <div class="portfolio-category">視覺識別</div>
+                            <h3>NextGen Tech 品牌重塑</h3>
+                            <p>為科技公司執行品牌重塑專案，打造現代且具前瞻性的視覺識別系統。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- UI/UX 設計 -->
+                <div class="portfolio-item" data-category="uiux">
+                    <img src="/api/placeholder/400/300" alt="健康App設計" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <div>
+                            <div class="portfolio-category">UI/UX 設計</div>
+                            <h3>WellFit 健康追蹤App</h3>
+                            <p>一款健康生活方式追蹤應用程式的UI/UX設計，注重使用者體驗與清晰的數據視覺化。</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-item" data-category="uiux">
+                    <img src="/api/placeholder/400/300" alt="電商網站設計" class="portfolio-img">
+                    <div class="portfolio-info">
+                        <div>
+                            <div class="portfolio-category">UI/UX 設計</div>
+                            <h3>Elegance 線上購物平台</h3>
+                            <p>為時尚品牌設計的電子商務網站，提供流暢且直觀的購物體驗。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <button class="group relative overflow-hidden rounded-3xl shadow-md hover:shadow-xl transform hover:scale-105 transition" onclick="filterCategory('typography')">
-      <img src="typography.jpg" alt="字體設計" class="w-full h-48 object-cover">
-      <div class="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-40 transition"></div>
-      <div class="absolute bottom-4 left-4 text-white text-lg font-semibold">字體設計</div>
-    </button>
-  </div>
-</section>
-<section id="works" class="py-16 bg-white relative">
-  <h2 class="text-3xl font-extrabold text-primary text-center mb-10">作品牆 | Recent Works</h2>
-  
-  <!-- 這裡之後可以加作品卡片 -->
-</section>
-<!-- ===== 社群連結區 ===== -->
-<section class="py-12 text-center">
-  <h2 class="text-3xl font-extrabold text-primary mb-6">聯繫我 | Contact</h2>
-  <div class="flex justify-center space-x-6 text-3xl">
-    <a href="https://instagram.com" target="_blank" class="hover:text-primary"><i class="fab fa-instagram"></i></a>
-    <a href="https://linkedin.com" target="_blank" class="hover:text-primary"><i class="fab fa-linkedin"></i></a>
-    <a href="https://github.com" target="_blank" class="hover:text-primary"><i class="fab fa-github"></i></a>
-    <a href="mailto:your@email.com" class="hover:text-primary"><i class="fas fa-envelope"></i></a>
-  </div>
-</section>
-
-<!-- ===== JavaScript 簡單互動 ===== -->
-<script>
-function filterCategory(category) {
-  console.log("你點了分類: ", category);
-  // 這裡可以加未來的篩選動作
-}
-</script>
-<script>
-  function filterCategory(category) {
-    console.log("你點了分類: ", category);
-    const worksSection = document.getElementById('works');
-    if (worksSection) {
-      worksSection.scrollIntoView({ behavior: 'smooth' });
-    }
-  }
-  </script>
-</body>
-</html>
-
+        <section id="experience">
+            <h2>工作經驗</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content
